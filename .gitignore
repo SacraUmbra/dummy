@@ -1,129 +1,74 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+import random
 
-# C extensions
-*.so
+roll = random.randint
+roll2 = random.shuffle
+roll3 = random.choice
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+print("#####################################################################\n\nMaster orders you to beat that dummy, that safe way to train youself\n\n#####################################################################\n\n")
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+"""
+#####################
+I will gladd to hear ways to minimize code
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+SP = Stamina Point
+HP = Heath Point
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+update 1.1 - added critical chance
+#####################
+"""
 
-# Translations
-*.mo
-*.pot
+hp = 800
+sp = 50
+at = ['Heavy','rest','Fast','Fast','Fast'] #20% - rest, 20% - heavy 60% - fast
+r = 0
+dmg = 0
+critchance = 15
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+def crit():  # Critical modifer funcrion
+    global critchance
+    global critr #Crit result
+    global dmg
+    
+    if critchance >= roll(1,100):
+        dmg *= 2
+        critr = "\nCritical hit!\n"
+    else:
+        critr = "\n"
+        
+def attack(): #main attack function
+    global hp
+    global sp
+    global dmg
+    
+    aresult = roll3(at) # roll attack type
+    if aresult == 'Heavy':
+        if sp <= 35: 
+            return(print("You try to heavy attack, but you have not enough SP\n sp =",sp,"\n"))
+        sp -= 35             #sp cost
+        dmg = roll(130, 260) #HA Damage
+        crit()
+    elif aresult == 'Fast':
+        if sp <= 15:
+            return(print("You try to fast attack, but you have not enough SP\n sp =",sp,"\n"))
+        sp -= 15           #sp cost
+        dmg = roll(30, 90) #FA Damage
+        crit()
+    else:
+        sp+=7
+        return(print("You resting\n sp =",sp,"\n"))
 
-# Flask stuff:
-instance/
-.webassets-cache
+    hp -= dmg
+    
+    print(aresult, " attack!",critr, "You beat", dmg, "damage\n Enemy hp =", hp, "\nYou'r sp =", sp,"\n")
 
-# Scrapy stuff:
-.scrapy
+while hp >= 0:
 
-# Sphinx documentation
-docs/_build/
+    sp += 8
+    attack()
+    r += 1
+    
+    
+print("You beat him in ",r,"rounds!")
 
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+# My Hi record 12 round
+# Next step is to train computer beat them for minimal rounds 
